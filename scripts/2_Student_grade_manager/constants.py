@@ -1,5 +1,6 @@
 from pathlib import Path
-JSON_PATH = Path("scripts/1_Student_manager/students.json")
+BASE_DIR = Path(__file__).parent
+JSON_PATH = BASE_DIR / "students.json"
 MENU = '''
 Welcome to the students Grade Manager!
         1. Add students
