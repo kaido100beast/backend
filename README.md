@@ -15,3 +15,5 @@
 ## Day 3
 - Delte update search implementation
 - exception handling improvement
+- variable separations
+- Path

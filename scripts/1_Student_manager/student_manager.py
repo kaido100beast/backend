@@ -1,55 +1,64 @@
 import json
+from pathlib import Path
+json_path = Path("scripts/1_Student_manager/students.json")
+menu = '''
+Welcome to the students Grade Manager!
+        1. Add students
+        2. Delete students
+        3. update students
+        4. search students
+        5. View studentss
+        6. Highest Scorer
+        7. Save Data
+        8. Exit
+Please select an option (1-8): '''
 students = {}
-def import_data():
+def import_data() -> None:
     try:
-        with open(r'scripts\1_Student_manager\students.json', 'r') as f:
+        with open(json_path, 'r') as f:
             students.update(json.load(f))
         print("Data imported successfully")
-    except FileNotFoundError as e:
-        print(f"No existing data found: {e}")
+    except FileNotFoundError:
+        print("File not found")
+    except json.JSONDecodeError:
+        print("No existing data found")
 
-def find_student(name):
-    try:
-        return students.get(name, {})
-    except Exception as e:
-        print(f"Issue finding student: {e}")
+def find_student(name) -> dict:
+    return students.get(name, None)
 
-def delete_student():
+def delete_student() -> None:
     try:
         print("Enter student name to delete: ")
         name = input()
         print(f"Student deleted: {students.pop(name, 'Not found')}")
-    except Exception as e:
-        print(f"Issue deleting student: {e}")
+    except ValueError:
+        print("Issue deleting student")
 
-def update_student():
+def update_student() -> None:
     try:
-        name = search_student()
-        for subject,marks in name:
-            print(f"Subject: {subject} Marks: {marks}")
+        student = search_student()
         print("Enter the subject you want to edit: ")
         edit_subject = input()
         print("Enter new marks: ")
-        students[edit_subject] = input()
+        student[edit_subject] = int(input())
         print("subject marks updated successfully")    
-    except Exception as e:
-        print(f"Issue updating student: {e}")
+    except ValueError:
+        print("Issue updating student")
 
-def search_student():
+def search_student() -> dict:
     try:
         print("Enter the student name: ")
         name = input()
         student = find_student(name)
         if student:
-            print("Student found:", name)
             print(student)
         else:
             print("Student not found")
         return student    
-    except Exception as e:
-        print(f"Issue searching student: {e}")
+    except ValueError:
+        print("Issue searching student")
 
-def add_student():
+def add_student() -> None:
     try: 
         print("Enter student name: ")
         name = input()
@@ -62,52 +71,43 @@ def add_student():
             score = int(input())
             students[name][subject] = score
         print(f"students {name} added successfully")
-    except Exception as e:
-        print(f"Error adding student: {e}")
+    except ValueError:
+        print("Error adding student")
 
-def view_students():
+def view_students() -> None:
     try:
         for name, subjects in students.items():
             print(f"students: {name}")
             for subject, score in subjects.items():
                 print(f"  {subject}: {score}")
             print("Average: ", sum(subjects.values())/len(subjects))
-    except Exception as e:
-        print(f"Error viewing students: {e}")
-def highest_scorer():
+    except ValueError:
+        print("Error viewing students")
+def highest_scorer() -> None:
     try:
         highest_score = 0
         highest_student = ""
         for name, subjects in students.items():
-            total_score = sum(subjects.values())
+            total_score = sum(subjects.values())/len(subjects)
             if total_score > highest_score:
                 highest_score = total_score
                 highest_student = name
         print(f"Highest Scorer: {highest_student} with a total score of {highest_score}")
-    except Exception as e:
-        print(f"Error calculating highest scorer: {e}")
+    except ValueError:
+        print("Error calculating highest scorer")
 
-def save_data():
+def save_data() -> None:
     # export to json file
     try:
-        with open(r'scripts\1_Student_manager\students.json', 'w') as f:
+        with open(json_path, 'w') as f:
             json.dump(students,f)
         print("Data saved to students.json")
-    except Exception as e:
-        print(f"Error saving data: {e}")
+    except OSError:
+        print("Error saving data")
 
 def main():
     while True:
-        print("Welcome to the students Grade Manager!")
-        print("1. Add students")
-        print("2. Delete students")
-        print("3. update students")
-        print("4. search students")
-        print("5. View studentss")
-        print("6. Highest Scorer")
-        print("7. Save Data")
-        print("8. Exit")
-        print(" Please select an option (1-8): ")
+        print(menu)
         input_option = input()
         if input_option == "1":
             add_student()
