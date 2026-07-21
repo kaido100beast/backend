@@ -13,7 +13,10 @@
 - Student Grade Manager
 
 ## Day 3
-- Delte update search implementation
+- Delete update search implementation
 - exception handling improvement
 - variable separations
 - Path
+
+## Day 4
+- multi-file refactoring
