@@ -8,6 +8,7 @@ class MeterInventory:
 
     def add_meter(self, meter: SmartMeter) -> None:
         self.meters[meter.meter_id] = meter
+        meter.total_meters += 1
 
     def remove_meter(self, meter_id: str) -> None:
         try:

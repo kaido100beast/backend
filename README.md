@@ -24,4 +24,18 @@
 ## Day 5
 - class implementation 
 - dataclass
-- 
+
+## Day 6
+- inheritance
+- OOPs
+- objects
+- encapsulation
+
+## Day 7
+- Object lifecycle
+- Memory management
+- Object validity
+- Constructor responsibilities
+- Factory design
+- Validation strategy
+- static, class method
